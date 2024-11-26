@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인터랙티브 소설</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px auto;
+            max-width: 600px;
+        }
+        .page {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>인터랙티브 소설</h1>
+
+    <!-- 페이지 1 -->
+    <div id="page1" class="page visible">
+        <h2>당신은 어두운 숲 속에 서 있습니다. 앞으로 나아갈까요?</h2>
+        <button onclick="nextPage('A', 'page2')">A: 나아간다</button>
+        <button onclick="nextPage('B', 'page3')">B: 돌아간다</button>
+    </div>
+
+    <!-- 페이지 2 -->
+    <div id="page2" class="page">
+        <h2>앞으로 나아가자 거대한 늑대가 나타납니다. 싸울까요?</h2>
+        <button onclick="nextPage('A', 'page4')">A: 싸운다</button>
+        <button onclick="nextPage('B', 'page5')">B: 도망친다</button>
+    </div>
+
+    <!-- 페이지 3 -->
+    <div id="page3" class="page">
+        <h2>숲을 벗어나려다 발이 미끄러져 웅덩이에 빠졌습니다. 다시 시도할까요?</h2>
+        <button onclick="nextPage('A', 'page4')">A: 다시 시도한다</button>
+        <button onclick="nextPage('B', 'fail')">B: 포기한다</button>
+    </div>
+
+    <!-- 페이지 4 -->
+    <div id="page4" class="page">
+        <h2>당신은 깊은 동굴을 발견합니다. 들어가 볼까요?</h2>
+        <button onclick="nextPage('A', 'success')">A: 들어간다</button>
+        <button onclick="nextPage('B', 'fail')">B: 돌아선다</button>
+    </div>
+
+    <!-- 페이지 5 -->
+    <div id="page5" class="page">
+        <h2>도망치는 도중 당신은 안전한 집에 도착합니다. 잠시 쉴까요?</h2>
+        <button onclick="nextPage('A', 'fail')">A: 쉰다</button>
+        <button onclick="nextPage('B', 'success')">B: 계속 이동한다</button>
+    </div>
+
+    <!-- 성공 페이지 -->
+    <div id="success" class="page">
+        <h2>축하합니다! 당신은 보물을 발견하고 성공적인 모험을 마쳤습니다!</h2>
+        <button onclick="restart()">다시 시작하기</button>
+    </div>
+
+    <!-- 실패 페이지 -->
+    <div id="fail" class="page">
+        <h2>안타깝게도 당신은 길을 잃고 모험에 실패했습니다...</h2>
+        <button onclick="restart()">다시 시작하기</button>
+    </div>
+
+    <script>
+        const userChoices = []; // 사용자의 선택을 저장하는 배열
+
+        // 페이지 이동 함수
+        function nextPage(choice, nextPageId) {
+            userChoices.push(choice); // 선택 저장
+            const currentPage = document.querySelector('.page.visible');
+            currentPage.classList.remove('visible'); // 현재 페이지 숨기기
+            document.getElementById(nextPageId).classList.add('visible'); // 다음 페이지 표시
+        }
+
+        // 다시 시작 함수
+        function restart() {
+            userChoices.length = 0; // 선택 초기화
+            document.querySelector('.page.visible').classList.remove('visible');
+            document.getElementById('page1').classList.add('visible'); // 첫 페이지로 이동
+        }
+    </script>
+</body>
+</html>

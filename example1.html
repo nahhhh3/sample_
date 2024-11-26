@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>질문과 결과</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px auto;
+            max-width: 600px;
+        }
+        .question, .result {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>질문과 결과 테스트</h1>
+
+    <!-- 질문 페이지 -->
+    <div id="question1" class="question visible">
+        <h2>질문 1: 당신은 아침형 인간인가요?</h2>
+        <button onclick="nextQuestion('A')">A: 네, 그렇습니다.</button>
+        <button onclick="nextQuestion('B')">B: 아니요, 그렇지 않습니다.</button>
+    </div>
+
+    <div id="question2" class="question">
+        <h2>질문 2: 커피를 좋아하나요?</h2>
+        <button onclick="nextQuestion('A')">A: 네, 좋아합니다.</button>
+        <button onclick="nextQuestion('B')">B: 아니요, 좋아하지 않습니다.</button>
+    </div>
+
+    <div id="question3" class="question">
+        <h2>질문 3: 주말에 운동을 하나요?</h2>
+        <button onclick="showResult('A')">A: 네, 운동합니다.</button>
+        <button onclick="showResult('B')">B: 아니요, 운동하지 않습니다.</button>
+    </div>
+
+    <!-- 결과 페이지 -->
+    <div id="result" class="result">
+        <h2>결과</h2>
+        <p id="resultText"></p>
+        <button onclick="restart()">다시 시작하기</button>
+    </div>
+
+    <script>
+        // 사용자의 답변 저장
+        const answers = [];
+
+        // 질문 페이지 이동
+        function nextQuestion(answer) {
+            answers.push(answer); // 선택 저장
+            const currentQuestion = document.querySelector('.question.visible');
+            currentQuestion.classList.remove('visible');
+            
+            if (currentQuestion.nextElementSibling && currentQuestion.nextElementSibling.classList.contains('question')) {
+                currentQuestion.nextElementSibling.classList.add('visible');
+            }
+        }
+
+        // 결과 표시
+        function showResult(answer) {
+            answers.push(answer); // 마지막 답변 저장
+
+            const currentQuestion = document.querySelector('.question.visible');
+            currentQuestion.classList.remove('visible');
+
+            const resultPage = document.getElementById('result');
+            resultPage.classList.add('visible');
+
+            // 3개의 답변 조합으로 결과 결정 (A/B -> 0/1로 변환)
+            const index = parseInt(answers.map(a => (a === 'A' ? '0' : '1')).join(''), 2);
+
+            // 결과 텍스트 배열
+            const results = [
+                "결과 1: 당신은 긍정적인 사람입니다!",
+                "결과 2: 당신은 신중한 사람입니다.",
+                "결과 3: 당신은 창의적인 사람입니다!",
+                "결과 4: 당신은 실용적인 사람입니다.",
+                "결과 5: 당신은 모험심이 강한 사람입니다!",
+                "결과 6: 당신은 차분한 사람입니다.",
+                "결과 7: 당신은 열정적인 사람입니다!",
+                "결과 8: 당신은 사려 깊은 사람입니다."
+            ];
+
+            // 결과 텍스트 표시
+            document.getElementById('resultText').textContent = results[index];
+        }
+
+        // 테스트 다시 시작
+        function restart() {
+            answers.length = 0; // 답변 초기화
+            document.querySelector('.result.visible').classList.remove('visible');
+            document.getElementById('question1').classList.add('visible');
+        }
+    </script>
+</body>
+</html>
